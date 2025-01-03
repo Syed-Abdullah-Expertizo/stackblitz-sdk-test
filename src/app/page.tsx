@@ -1,7 +1,9 @@
 "use client";
 
+import { angularProjectPrompt } from "@/data/angular";
 import { nextJsTailwindProject } from "@/data/next";
 import { reactViteProjectPrompt } from "@/data/react+vite";
+import { vueViteProjectPrompt } from "@/data/vue+vite";
 import StackBlitzSDK from "@stackblitz/sdk";
 
 export default function Home() {
