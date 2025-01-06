@@ -5,7 +5,7 @@ export const vueViteProjectPrompt: Project = {
   description:
     "A dynamic blog layout built with Vue.js and styled using Tailwind CSS, bootstrapped with Vite.",
   template: "node",
-  settings: { compile: { trigger: "save", action: "refresh" } },
+  settings: { compile: { trigger: "save", action: "hmr" } },
   files: {
     "index.html": `
 <!DOCTYPE html>

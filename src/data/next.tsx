@@ -5,7 +5,7 @@ export const nextJsTailwindProject: Project = {
   description:
     "A dynamic blog layout built with Next.js and styled using Tailwind CSS.",
   template: "node",
-  settings: { compile: { trigger: "save", action: "refresh" } },
+  settings: { compile: { trigger: "save", action: "hmr" } },
   files: {
     "package.json": `{
   "name": "nextjs-blog",

@@ -2,19 +2,23 @@
 
 import { angularProjectPrompt } from "@/data/angular";
 import { nextJsTailwindProject } from "@/data/next";
+import { nodeFileBasedTodoAppPrompt } from "@/data/nodejs";
+import { ReactFirebaseCounterProject } from "@/data/react+firebase";
+import { ReactSupabaseCounterProject } from "@/data/react+supabase";
 import { reactViteProjectPrompt } from "@/data/react+vite";
 import { vueViteProjectPrompt } from "@/data/vue+vite";
 import StackBlitzSDK from "@stackblitz/sdk";
 
 export default function Home() {
   const handleStartIDE = async () => {
-    StackBlitzSDK.embedProject("embed", reactViteProjectPrompt, {
+    StackBlitzSDK.embedProject("embed", ReactSupabaseCounterProject, {
       height: 1000,
       openFile: "index.js",
       terminalHeight: 50,
       startScript: "dev",
     });
   };
+
 
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center">
