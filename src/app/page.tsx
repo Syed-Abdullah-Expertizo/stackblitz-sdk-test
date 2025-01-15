@@ -1,27 +1,60 @@
 "use client";
 
-import { angularProjectPrompt } from "@/data/angular";
-import { nextJsTailwindProject } from "@/data/next";
-import { nodeFileBasedTodoAppPrompt } from "@/data/nodejs";
-import { ReactFirebaseCounterProject } from "@/data/react+firebase";
-import { ReactSupabaseCounterProject } from "@/data/react+supabase";
-import { reactViteProjectPrompt } from "@/data/react+vite";
-import { vueViteProjectPrompt } from "@/data/vue+vite";
+import { angularProjectPrompt } from "@/data-sdk/angular";
+import { nextJsTailwindProject } from "@/data-sdk/next";
+import { nodeFileBasedTodoAppPrompt } from "@/data-sdk/nodejs";
+import { ReactFirebaseCounterProject } from "@/data-sdk/react+firebase";
+import { ReactSupabaseCounterProject } from "@/data-sdk/react+supabase";
+import { reactViteProjectPrompt } from "@/data-sdk/react+vite";
+import { vueViteProjectPrompt } from "@/data-sdk/vue+vite";
 import StackBlitzSDK from "@stackblitz/sdk";
+import { Resizable } from "re-resizable";
+
+const currentFramework = "angular";
+
+const FrameWork = {
+  reactVite: {
+    prompt: reactViteProjectPrompt,
+    startScript: "dev",
+  },
+  vueVite: {
+    prompt: vueViteProjectPrompt,
+    startScript: "dev",
+  },
+  reactFirebase: {
+    prompt: ReactFirebaseCounterProject,
+    startScript: "dev",
+  },
+  reactSupabase: {
+    prompt: ReactSupabaseCounterProject,
+    startScript: "dev",
+  },
+  next: {
+    prompt: nextJsTailwindProject,
+    startScript: "dev",
+  },
+  angular: {
+    prompt: angularProjectPrompt,
+    startScript: "start",
+  },
+  nodejs: {
+    prompt: nodeFileBasedTodoAppPrompt,
+    startScript: "start",
+  },
+};
 
 export default function Home() {
   const handleStartIDE = async () => {
-    StackBlitzSDK.embedProject("embed", ReactSupabaseCounterProject, {
+    StackBlitzSDK.embedProject("embed", FrameWork[currentFramework].prompt, {
       height: 1000,
-      openFile: "index.js",
+      openFile: "package.json",
       terminalHeight: 50,
-      startScript: "dev",
+      startScript: FrameWork[currentFramework].startScript,
     });
   };
 
-
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center">
+    <div className="h-screen flex items-center justify-center w-full">
       <button
         className="px-6 py-2 rounded-md bg-blue-500 border-black border text-white font-bold"
         onClick={handleStartIDE}
@@ -32,6 +65,7 @@ export default function Home() {
       <div id="embed">
         <p>Embed will go here</p>
       </div>
+
     </div>
   );
 }

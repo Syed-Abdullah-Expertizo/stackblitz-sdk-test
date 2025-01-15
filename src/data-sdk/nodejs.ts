@@ -35,22 +35,29 @@ export const nodeFileBasedTodoAppPrompt: Project = {
   { id: 1, task: "Learn Node.js", completed: false },
   { id: 2, task: "Build a TODO app", completed: false }
 ];`,
-    "src/index.ts": `import express from "express";
-import { todos } from "./data";
-import fs from "fs";
+    "src/index.ts": `import express from 'express';
+import { todos } from './data';
+import fs from 'fs';
 
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 app.use(express.json());
 
 // Read all tasks
-app.get("/todos", (req, res) => {
-  res.send(todos);
+app.get('/todos', (req, res) => {
+  const newTodo = {
+    id: todos.length+1,
+    task: 'New Task Added',
+    completed: false,
+  };
+  todos.push(newTodo);
+  saveToFile();
+  res.status(201).send(todos);
 });
 
 // Add a new task
-app.post("/todos", (req, res) => {
+app.post('/todos', (req, res) => {
   const newTodo = { id: Date.now(), task: req.body.task, completed: false };
   todos.push(newTodo);
   saveToFile();
@@ -58,12 +65,12 @@ app.post("/todos", (req, res) => {
 });
 
 // Update a task
-app.patch("/todos/:id", (req, res) => {
+app.patch('/todos/:id', (req, res) => {
   const { id } = req.params;
   const { task, completed } = req.body;
   const todo = todos.find((t) => t.id === parseInt(id));
 
-  if (!todo) return res.status(404).send({ error: "Task not found" });
+  if (!todo) return res.status(404).send({ error: 'Task not found' });
 
   if (task !== undefined) todo.task = task;
   if (completed !== undefined) todo.completed = completed;
@@ -73,20 +80,23 @@ app.patch("/todos/:id", (req, res) => {
 });
 
 // Delete a task
-app.delete("/todos/:id", (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const { id } = req.params;
   const index = todos.findIndex((t) => t.id === parseInt(id));
 
-  if (index === -1) return res.status(404).send({ error: "Task not found" });
+  if (index === -1) return res.status(404).send({ error: 'Task not found' });
 
   todos.splice(index, 1);
   saveToFile();
-  res.send({ message: "Task deleted successfully" });
+  res.send({ message: 'Task deleted successfully' });
 });
 
 // Save todos to the local file
 const saveToFile = () => {
-  fs.writeFileSync("src/data.ts", \`export let todos = \${JSON.stringify(todos, null, 2)};\`);
+  fs.writeFileSync(
+    'src/data.ts',
+    \`export let todos = \${JSON.stringify(todos, null, 2)};\`
+  );
 };
 
 // Start the server
